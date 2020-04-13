@@ -7,6 +7,8 @@ RSpec.describe "Api::V1::TasksController", type: :request do
 
   before do 
     post "/api/v1/tasks", params: {product_id: product_1.id}
+    task_id = (response_json)["task"]["id"]
+    @task = Task.find(task_id)
   end
 
   describe "POST api/v1/tasks" do
@@ -16,39 +18,39 @@ RSpec.describe "Api::V1::TasksController", type: :request do
   end
 
   it "response with task ID" do
-    expect((response_json)["task"]["id"]).to eq task.id
+    expect(response_json["task"]["id"]).to eq @task.id
   end
 
   it "response with task right amount of products" do
-    expect((response_json)["task"]["products"]).to eq 1
+    expect(response_json["task"]["products"][0]["amount"]).to eq 1
   end
 
   it "response with the right total amount" do
-    expect((response_json)["task"]["total"]).to eq 20
+    expect(response_json["task"]["total"]).to eq "20.0"
   end
 end
 
 describe "PUT api/v1/tasks/:id" do
   before do 
-    put "/api/v1/tasks/#{task.id}", params: {product_id: product_2.id}
-    put "/api/v1/tasks/#{task.id}", params: {product_id: product_2.id}
-    put "/api/v1/tasks/#{task.id}", params: {product_id: product_3.id}
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_3.id}
   end
 
   it "response with succes message" do
-    expect((response_json)["message"]).to eq "The product has been added to your request"
+    expect(response_json["message"]).to eq "The product has been added to your request"
   end
 
   it "response with task ID" do
-    expect((response_json)["task"]["id"]).to eq task.id
+    expect(response_json["task"]["id"]).to eq @task.id
   end
 
   it "response with task right amount of products" do
-    expect((response_json)["task"]["products"]).to eq 4
+    expect(response_json["task"]["products"][1]["amount"]).to eq 2
   end
 
   it "response with the right total amount" do
-    expect((response_json)["task"]["total"]).to eq 100
+    expect(response_json["task"]["total"]).to eq "90.0"
   end
 end
 
