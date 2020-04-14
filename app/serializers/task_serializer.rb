@@ -6,9 +6,9 @@ class TaskSerializer < ActiveModel::Serializer
       product = value.uniq(&:product_id)[0].product
       { amount: value.size, name: product.name, total: (value.size * product.price) }
     end
-	end
+  end
 
   def total
-    object.task_items.joins(:product).sum('products.price')
+    object.task_items.joins(:product).sum("products.price")
   end
 end
