@@ -7,9 +7,14 @@ class Api::V1::TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-    product = Product.find(params[:product_id])
-    task.task_items.create(product: product)
-    render json: create_json_response(task)
+    if params[:activity]
+      task.update_attribute(:confirmed, true)
+      render json: { message: "Your task has been confirmed" }
+    else
+      product = Product.find(params[:product_id])
+      task.task_items.create(product: product)
+      render json: create_json_response(task)
+    end
   end
 
   private
