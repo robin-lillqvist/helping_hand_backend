@@ -5,6 +5,11 @@ class Api::V1::TasksController < ApplicationController
     render json: create_json_response(task)
   end
 
+  def index
+    task = Task.all
+    render json: { tasks: task }
+  end
+
   def update
     task = Task.find(params[:id])
     if params[:activity]
