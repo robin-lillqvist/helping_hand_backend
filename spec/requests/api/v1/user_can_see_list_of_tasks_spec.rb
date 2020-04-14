@@ -1,21 +1,13 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::TasksController", type: :request do
-  let!(:product_1) { create(:product, name: "pasta", price: 20) }
-  let!(:product_2) { create(:product, name: "eggs", price: 30) }
-  let!(:product_3) { create(:product, name: "tomatoes", price: 10) }
-  let!(:tasks) { create(:task) }
+  let!(:product)  { create(:product) } 
+  let!(:task_1) { create(:task, confirmed: true) } 
 
   before do
-    post "/api/v1/tasks", params: { product_id: product_1.id }
-    task_id = (response_json)["task"]["id"]
-    @task = Task.find(task_id)
-  end
-
-  before do
-    tasks.task_items.create(product: product_1)
-    tasks.task_items.create(product: product_2)
-    tasks.task_items.create(product: product_3)
+    post "/api/v1/tasks", params: { product_id: product.id }
+    @task_id = (response_json)["task"]["id"]
+    @task = Task.find(@task_id)
     put "/api/v1/tasks/#{@task.id}", params: { activity: "confirmed" }
   end
 
@@ -26,6 +18,14 @@ RSpec.describe "Api::V1::TasksController", type: :request do
 
     it "returns a 200 response status" do
       expect(response).to have_http_status 200
+    end
+
+    it "returns correct number of tasks" do
+      expect(response_json.count).to eq 2
+    end
+
+    it "task contains a product" do
+      expect(response_json[1]["products"][0]["amount"]).to eq 1
     end
   end
 end

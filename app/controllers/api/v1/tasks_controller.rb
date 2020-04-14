@@ -1,13 +1,14 @@
 class Api::V1::TasksController < ApplicationController
+
+  def index
+    @tasks = Task.where(confirmed: true)
+    render json: @tasks
+  end
+
   def create
     task = Task.create
     task.task_items.create(product_id: params[:product_id])
     render json: create_json_response(task)
-  end
-
-  def index
-    task = Task.all
-    render json: { tasks: task }
   end
 
   def update
