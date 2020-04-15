@@ -1,5 +1,6 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :products, :total
+  attributes :id, :products, :total , :user_id
+  belongs_to :user
 
   def products
     object.task_items.group_by(&:product_id).map do |_key, value|
