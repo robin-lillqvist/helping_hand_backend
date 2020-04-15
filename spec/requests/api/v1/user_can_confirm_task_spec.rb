@@ -17,6 +17,7 @@ RSpec.describe "Api::V1::TasksController", type: :request do
         }
       },
       headers: user_headers
+      binding.pry
     task_id = (response_json)["task"]["id"]
     @task = Task.find(task_id)
   end

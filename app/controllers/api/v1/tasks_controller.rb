@@ -1,4 +1,5 @@
 class Api::V1::TasksController < ApplicationController
+  # before_action :authenticate_user!, only: %i[create]
 
   def index
     @tasks = Task.where(confirmed: true)
@@ -6,7 +7,7 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def create
-    task = Task.create
+    task = Task.create(user_id: params[:user_id])
     task.task_items.create(product_id: params[:product_id])
     render json: create_json_response(task)
   end
