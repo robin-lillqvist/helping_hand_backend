@@ -1,14 +1,31 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::TasksController", type: :request do
-  let!(:product)  { create(:product) } 
-  let!(:task_1) { create(:task, confirmed: true) } 
+  let(:user) { create(:user) }
+  let(:user_credentials) { user.create_new_auth_token }
+  let(:user_headers) { { HTTP_ACCEPT: "application/json" }.merge!(user_credentials) }
+  let!(:product) { create(:product) }
+  # let!(:task_1) { create(:task, confirmed: true) }
 
   before do
-    post "/api/v1/tasks", params: { product_id: product.id }
+    post "/api/v1/tasks",
+         params: {
+           product_id: product.id,
+           user_id: user.id,
+         },
+         headers: user_headers
     @task_id = (response_json)["task"]["id"]
     @task = Task.find(@task_id)
     put "/api/v1/tasks/#{@task.id}", params: { activity: "confirmed" }
+    post "/api/v1/tasks",
+         params: {
+           product_id: product.id,
+           user_id: user.id,
+         },
+         headers: user_headers
+    @task_id = (response_json)["task"]["id"]
+    @task_1 = Task.find(@task_id)
+    put "/api/v1/tasks/#{@task_1.id}", params: { activity: "confirmed" }
   end
 
   describe "GET /tasks" do
