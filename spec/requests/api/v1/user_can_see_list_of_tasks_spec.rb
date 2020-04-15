@@ -5,7 +5,6 @@ RSpec.describe "Api::V1::TasksController", type: :request do
   let(:user_credentials) { user.create_new_auth_token }
   let(:user_headers) { { HTTP_ACCEPT: "application/json" }.merge!(user_credentials) }
   let!(:product) { create(:product) }
-  # let!(:task_1) { create(:task, confirmed: true) }
 
   before do
     post "/api/v1/tasks",
@@ -38,6 +37,7 @@ RSpec.describe "Api::V1::TasksController", type: :request do
     end
 
     it "returns correct number of tasks" do
+      binding.pry
       expect(response_json.count).to eq 2
     end
 

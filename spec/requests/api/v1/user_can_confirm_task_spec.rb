@@ -11,10 +11,8 @@ RSpec.describe "Api::V1::TasksController", type: :request do
   before do
     post "/api/v1/tasks",
       params: {
-        task: {
           product_id: product_1.id,
           user_id: user.id
-        }
       },
       headers: user_headers
     task_id = (response_json)["task"]["id"]
