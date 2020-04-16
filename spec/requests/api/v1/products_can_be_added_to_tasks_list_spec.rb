@@ -41,9 +41,9 @@ end
 
 describe "PUT api/v1/tasks/:id" do
   before do 
-    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}
-    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}
-    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_3.id}
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}, headers: user_headers
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_2.id}, headers: user_headers
+    put "/api/v1/tasks/#{@task.id}", params: {product_id: product_3.id}, headers: user_headers
   end
 
   it "response with succes message" do
