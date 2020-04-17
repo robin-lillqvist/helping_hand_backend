@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_one :task
+  has_many :task
 end
