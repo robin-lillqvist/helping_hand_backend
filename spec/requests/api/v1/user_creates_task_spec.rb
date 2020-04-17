@@ -75,7 +75,7 @@ RSpec.describe "Api::V1::TasksController", type: :request do
              headers: user_headers
       end
 
-      it "returns a 400 response" do
+      it "returns a 403 response" do
         expect(response).to have_http_status 403
       end
     end
