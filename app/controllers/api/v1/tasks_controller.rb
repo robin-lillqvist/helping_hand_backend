@@ -1,11 +1,11 @@
 class Api::V1::TasksController < ApplicationController
   before_action :authenticate_user!, only: %i[create update]
   rescue_from ActiveRecord::RecordNotFound, with: :render_active_record_error
-  before_action :restrict_user_create_one_task, only: %i[create]
+  before_action :restrict_user_to_have_one_active_task, only: %i[create]
 
   def index
-    @tasks = Task.where(confirmed: true)
-    render json: @tasks
+    tasks = Task.where(status: :confirmed)
+    render json: tasks
   end
 
   def create
@@ -18,7 +18,7 @@ class Api::V1::TasksController < ApplicationController
     task = Task.find(params[:id])
     if params[:activity]
       if params[:activity] == "confirmed" && task.task_items.count < 40 && task.task_items.count >= 5
-        task.update_attribute(:confirmed, true)
+        task.update_attribute(:status, 'confirmed')
         render json: { message: "Your task has been confirmed" }
       else
         render_error_message(task)
@@ -32,14 +32,10 @@ class Api::V1::TasksController < ApplicationController
 
   private
 
-  def restrict_user_create_one_task
-    user = current_user
-    previous_accepted_task = Task.where(user_id: user, confirmed: true)
-    previous_accepted_task.each do |task|
-      if task.user_id == current_user.id
-        render json: { error: "You already have an active task pending" }, status: 403
-        return
-      end
+  def restrict_user_to_have_one_active_task
+    if current_user.tasks.any?{|task| task.status == 'pending' || 'confirmed'}
+      render json: { error: "You already have an active task pending" }, status: 403
+      return
     end
   end
 
