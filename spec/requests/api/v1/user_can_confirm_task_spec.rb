@@ -22,7 +22,7 @@ RSpec.describe "PUT api/v1/tasks/:id", type: :request do
 
     it "sets task attribute confirmed to true" do
       task.reload
-      expect(task.confirmed).to eq true
+      expect(task.status).to eq 'confirmed'
     end
   end
 

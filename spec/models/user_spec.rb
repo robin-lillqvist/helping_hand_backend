@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_db_column :tokens }
   end
 
-  it { is_expected.to have_many :task }
+  it { is_expected.to have_many :tasks }
 
   describe "Validations" do
     it { is_expected.to validate_presence_of :email }

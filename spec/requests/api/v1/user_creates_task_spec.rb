@@ -38,9 +38,7 @@ RSpec.describe "Api::V1::TasksController", type: :request do
 
     describe "User can update the task" do
       before do
-        put "/api/v1/tasks/#{@task.id}", params: { product_id: product_2.id }, headers: user_headers
-        put "/api/v1/tasks/#{@task.id}", params: { product_id: product_2.id }, headers: user_headers
-        put "/api/v1/tasks/#{@task.id}", params: { product_id: product_3.id }, headers: user_headers
+        3.times { put "/api/v1/tasks/#{@task.id}", params: { product_id: product_2.id }, headers: user_headers }
       end
 
       it "response with succes message" do
@@ -52,20 +50,36 @@ RSpec.describe "Api::V1::TasksController", type: :request do
       end
 
       it "response with task right amount of products" do
-        expect(response_json["task"]["products"][1]["amount"]).to eq 2
+        expect(response_json["task"]["products"][1]["amount"]).to eq 3
       end
 
       it "response with the right total amount" do
-        expect(response_json["task"]["total"]).to eq "90.0"
+        expect(response_json["task"]["total"]).to eq "110.0"
       end
     end
   end
 
-  describe "Unsuccessfully" do
-    let(:task) { create(:task, user: user, confirmed: true) }
-    let!(:task_items) { 5.times { create(:task_item, task: task) } }
+  describe "Unsuccessfull" do
+    describe "when user has a pending task" do
+      let(:pending_task) { create(:task, user: user, status: 'pending') }
+      let!(:task_items) { 5.times { create(:task_item, task: pending_task) } }  
+      before do
+        post "/api/v1/tasks",
+             params: {
+              product_id: product_1.id,
+              user_id: user.id
+               },
+             headers: user_headers
+      end
 
-    describe "user cannot create another task while one is active" do
+      it "returns a 403 response" do
+        expect(response).to have_http_status 403
+      end
+    end
+
+    describe "when user has a confirmed task" do
+      let(:confirmed_task) { create(:task, user: user, status: 'confirmed') }
+      let!(:task_items) { 5.times { create(:task_item, task: confirmed_task) } }  
       before do
         post "/api/v1/tasks",
              params: {
