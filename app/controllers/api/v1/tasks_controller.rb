@@ -33,8 +33,8 @@ class Api::V1::TasksController < ApplicationController
   private
 
   def restrict_user_to_have_one_active_task
-    if current_user.tasks.any?{|task| task.status == 'confirmed'}
-      render json: { error: "You already have an active task pending" }, status: 403
+    if current_user.tasks.any?{|task| task.status ==  'confirmed'}
+      render json: { error: "You can only have one active task at a time." }, status: 403
       return
     end
   end
@@ -42,18 +42,18 @@ class Api::V1::TasksController < ApplicationController
   def render_error_message(task)
     case
     when task.task_items.count >= 40
-      message = "You have to many products selected."
+      message = "You have selected too many products."
     when task.task_items.count < 5
       message = "You have to pick at least 5 products."
     else
-      message = "Internal problem. Contact support. No activity specified"
+      message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
     end
 
     render json: { error_message: message }, status: 400
   end
 
   def render_active_record_error(error)
-    render json: { error_message: "Internal problem. Contact support. #{error.message}" }, status: 400
+    render json: { error_message: "We are experiencing internal errors. Please refresh the page and contact support. #{error.message}" }, status: 400
   end
 
   def create_json_response(task)
