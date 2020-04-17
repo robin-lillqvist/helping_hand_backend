@@ -103,7 +103,7 @@ RSpec.describe "PUT api/v1/tasks/:id", type: :request do
       end
   
       it "response with error message" do
-        expect(response_json["error_message"]).to eq "You have to pick atleast 5 products."
+        expect(response_json["error_message"]).to eq "You have to pick at least 5 products."
       end
   
       it "returns 400 status" do

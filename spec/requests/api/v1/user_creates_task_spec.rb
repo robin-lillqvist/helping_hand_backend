@@ -75,6 +75,12 @@ RSpec.describe "Api::V1::TasksController", type: :request do
       it "returns a 403 response" do
         expect(response).to have_http_status 403
       end
+
+      it "response with error message" do
+        expect(response_json["error"]).to eq "You already have an active task pending"
+
+      end
+  
     end
 
     describe "when user has a confirmed task" do
@@ -92,6 +98,12 @@ RSpec.describe "Api::V1::TasksController", type: :request do
       it "returns a 403 response" do
         expect(response).to have_http_status 403
       end
+
+      it "response with error message" do
+        expect(response_json["error"]).to eq "You already have an active task pending"
+
+      end
+  
     end
   end
 end

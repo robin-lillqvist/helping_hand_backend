@@ -44,7 +44,7 @@ class Api::V1::TasksController < ApplicationController
     when task.task_items.count >= 40
       message = "You have to many products selected."
     when task.task_items.count < 5
-      message = "You have to pick atleast 5 products."
+      message = "You have to pick at least 5 products."
     else
       message = "Internal problem. Contact support. No activity specified"
     end
