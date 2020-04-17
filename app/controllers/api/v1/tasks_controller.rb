@@ -33,7 +33,7 @@ class Api::V1::TasksController < ApplicationController
   private
 
   def restrict_user_to_have_one_active_task
-    if current_user.tasks.any?{|task| task.status == 'pending' || 'confirmed'}
+    if current_user.tasks.any?{|task| task.status == 'confirmed'}
       render json: { error: "You already have an active task pending" }, status: 403
       return
     end

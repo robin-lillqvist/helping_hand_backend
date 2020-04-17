@@ -60,29 +60,6 @@ RSpec.describe "Api::V1::TasksController", type: :request do
   end
 
   describe "Unsuccessfull" do
-    describe "when user has a pending task" do
-      let(:pending_task) { create(:task, user: user, status: 'pending') }
-      let!(:task_items) { 5.times { create(:task_item, task: pending_task) } }  
-      before do
-        post "/api/v1/tasks",
-             params: {
-              product_id: product_1.id,
-              user_id: user.id
-               },
-             headers: user_headers
-      end
-
-      it "returns a 403 response" do
-        expect(response).to have_http_status 403
-      end
-
-      it "response with error message" do
-        expect(response_json["error"]).to eq "You already have an active task pending"
-
-      end
-  
-    end
-
     describe "when user has a confirmed task" do
       let(:confirmed_task) { create(:task, user: user, status: 'confirmed') }
       let!(:task_items) { 5.times { create(:task_item, task: confirmed_task) } }  
@@ -103,7 +80,6 @@ RSpec.describe "Api::V1::TasksController", type: :request do
         expect(response_json["error"]).to eq "You already have an active task pending"
 
       end
-  
     end
   end
 end
