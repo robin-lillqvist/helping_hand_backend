@@ -20,5 +20,10 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
     it "returns a 200 response status" do
       expect(response).to have_http_status 200
     end
+
+    it 'response with success message' do
+      expect(response_json['message']).to eq "You claimed the task"
+    end
+
   end
 end

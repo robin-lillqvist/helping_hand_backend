@@ -18,16 +18,16 @@ class Api::V1::TasksController < ApplicationController
   def update
     case params[:activity]
     when 'confirmed'
-      if params[:activity] == "confirmed" && @task.task_items.count < 40 && @task.task_items.count >= 5
-        @task.update_attribute(:status, 'confirmed')
+     if @task.is_confirmable?
+        @task.update_attribute(:status, params[:activity])
         render json: { message: "Your task has been confirmed" }
       else
         render_error_message(@task)
       end
 
     when 'claimed'
-      if params[:activity] == 'claimed'
-        @task.update_attribute(:status, 'claimed')
+      if @task.is_claimable?
+        @task.update_attribute(:status, params[:activity])
         render json: { message: "You claimed the task" }
       else
         render_error_message(@task)
@@ -36,7 +36,7 @@ class Api::V1::TasksController < ApplicationController
     else
       product = Product.find(params[:product_id])
       task.task_items.create(product: product)
-      render json: create_json_response(task)
+      render json: create_json_response(@task)
     end
   end
 
