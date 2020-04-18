@@ -7,7 +7,7 @@ class Api::V1::TasksController < ApplicationController
   before_action :find_task, only: :update
 
   def index
-    tasks = Task.where(status: :confirmed)
+    tasks = Task.where(status: :confirmed || :claimed)
     render json: tasks
   end
 
