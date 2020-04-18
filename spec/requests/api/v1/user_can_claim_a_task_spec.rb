@@ -25,5 +25,9 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
       expect(response_json['message']).to eq "You claimed the task"
     end
 
+    it 'task contains provider id' do
+      expect(Task.last.provider_id).to eq provider.id
+    end
+
   end
 end

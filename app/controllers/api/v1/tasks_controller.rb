@@ -17,29 +17,27 @@ class Api::V1::TasksController < ApplicationController
 
   def update
     case params[:activity]
-    when 'confirmed'
-     if @task.is_confirmable?
+    when "confirmed"
+      if @task.is_confirmable?
         @task.update_attribute(:status, params[:activity])
         render json: { message: "Your task has been confirmed" }
       else
         render_error_message(@task)
       end
-
-    when 'claimed'
-      if @task.is_claimable?
-        @task.update_attribute(:status, params[:activity])
+    when "claimed"
+      if @task.is_claimable?(current_user)
+        @task.update_attributes(status: params[:activity], provider: current_user)
         render json: { message: "You claimed the task" }
       else
         render_error_message(@task)
       end
-      
     else
       product = Product.find(params[:product_id])
       task.task_items.create(product: product)
-      render json: create_json_response(@task)
+      render json: create_json_response(task)
     end
   end
-
+ 
   private
 
   def find_task
@@ -47,7 +45,7 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def restrict_user_to_have_one_active_task
-    if current_user.tasks.any?{|task| task.status ==  'confirmed'}
+    if current_user.tasks.any? { |task| task.status == "confirmed" }
       render json: { error: "You can only have one active task at a time." }, status: 403
       return
     end

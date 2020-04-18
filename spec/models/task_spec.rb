@@ -13,5 +13,7 @@ RSpec.describe Task, type: :model do
   
   it { is_expected.to have_many :task_items }
   it { is_expected.to belong_to :user }
+  it { is_expected.to belong_to(:provider).optional(true)}
+
 end
 
