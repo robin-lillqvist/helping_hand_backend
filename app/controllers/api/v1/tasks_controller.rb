@@ -19,7 +19,7 @@ class Api::V1::TasksController < ApplicationController
     case params[:activity]
     when "confirmed"
       if @task.is_confirmable?
-        @task.update(:status, params[:activity])
+        @task.update(status: params[:activity])
         render json: { message: "Your task has been confirmed" }
       else
         render_error_message(@task)
@@ -62,6 +62,9 @@ class Api::V1::TasksController < ApplicationController
     when task.user_id == current_user.id
       message = "You cannot claim your own task"
       request_status = 405
+    when params[:activity] == "claimed"
+      message = "Task has already been claimed!"
+      request_status = 409
     else
       message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
       request_status = 500
@@ -71,7 +74,7 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def render_active_record_error(error)
-    render json: { error_message: "We are experiencing internal errors. Please refresh the page and contact support. #{error.message}" }, status: 400
+    render json: { error_message: "We are experiencing internal errors. Please refresh the page and contact support. #{error.message}" }, status: 500
   end
 
   def create_json_response(task)

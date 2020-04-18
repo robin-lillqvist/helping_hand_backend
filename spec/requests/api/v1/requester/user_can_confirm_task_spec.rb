@@ -54,8 +54,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response_json['error_message']).to eq "We are experiencing internal errors. Please refresh the page and contact support. Couldn't find Product without an ID"
       end
 
-      it 'returns 400 status' do
-        expect(response.status).to eq 400
+      it 'returns 500 status' do
+        expect(response.status).to eq 500
       end
     end
 
@@ -70,8 +70,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response_json['error_message']).to eq "We are experiencing internal errors. Please refresh the page and contact support. Couldn't find Product without an ID"
       end
 
-      it 'returns 400 status' do
-        expect(response.status).to eq 400
+      it 'returns 500 status' do
+        expect(response.status).to eq 500
       end
     end
 
@@ -89,8 +89,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response_json['error_message']).to eq 'You have selected too many products.'
       end
 
-      it 'returns 400 status' do
-        expect(response.status).to eq 400
+      it 'returns 403 status' do
+        expect(response.status).to eq 403
       end
     end
 
@@ -107,8 +107,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response_json['error_message']).to eq 'You have to pick at least 5 products.'
       end
 
-      it 'returns 400 status' do
-        expect(response.status).to eq 400
+      it 'returns 403 status' do
+        expect(response.status).to eq 403
       end
     end
 
@@ -123,8 +123,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response_json['error_message']).to eq "We are experiencing internal errors. Please refresh the page and contact support. Couldn't find Task with 'id'=1234567"
       end
 
-      it 'returns 400 status' do
-        expect(response.status).to eq 400
+      it 'returns 500 status' do
+        expect(response.status).to eq 500
       end
     end
   end
