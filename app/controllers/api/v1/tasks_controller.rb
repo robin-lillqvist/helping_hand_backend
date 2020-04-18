@@ -2,6 +2,7 @@ class Api::V1::TasksController < ApplicationController
   before_action :authenticate_user!, only: %i[create update]
   rescue_from ActiveRecord::RecordNotFound, with: :render_active_record_error
   before_action :restrict_user_to_have_one_active_task, only: %i[create]
+  before_action :find_task, only: :update
 
   def index
     tasks = Task.where(status: :confirmed)
@@ -15,14 +16,23 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
-    task = Task.find(params[:id])
-    if params[:activity]
-      if params[:activity] == "confirmed" && task.task_items.count < 40 && task.task_items.count >= 5
-        task.update_attribute(:status, 'confirmed')
+    case params[:activity]
+    when 'confirmed'
+      if params[:activity] == "confirmed" && @task.task_items.count < 40 && @task.task_items.count >= 5
+        @task.update_attribute(:status, 'confirmed')
         render json: { message: "Your task has been confirmed" }
       else
-        render_error_message(task)
+        render_error_message(@task)
       end
+
+    when 'claimed'
+      if params[:activity] == 'claimed'
+        @task.update_attribute(:status, 'claimed')
+        render json: { message: "You claimed the task" }
+      else
+        render_error_message(@task)
+      end
+      
     else
       product = Product.find(params[:product_id])
       task.task_items.create(product: product)
@@ -31,6 +41,10 @@ class Api::V1::TasksController < ApplicationController
   end
 
   private
+
+  def find_task
+    @task = Task.find(params[:id])
+  end
 
   def restrict_user_to_have_one_active_task
     if current_user.tasks.any?{|task| task.status ==  'confirmed'}
