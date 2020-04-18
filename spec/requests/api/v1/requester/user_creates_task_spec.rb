@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe 'Api::V1::TasksController', type: :request do
   let!(:product_1) { create(:product, name: 'pasta', price: 20) }
   let!(:product_2) { create(:product, name: 'eggs', price: 30) }

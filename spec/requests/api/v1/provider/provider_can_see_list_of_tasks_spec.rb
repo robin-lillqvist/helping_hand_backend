@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe 'Api::V1::TasksController', type: :request do
   let(:confirmed_task) { create(:task, status: 'confirmed') }
   let!(:confirmed_task_items) { 5.times { create(:task_item, task: confirmed_task) } }

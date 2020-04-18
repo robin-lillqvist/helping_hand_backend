@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::TasksController < ApplicationController
   before_action :authenticate_user!, only: %i[create update]
   rescue_from ActiveRecord::RecordNotFound, with: :render_active_record_error
@@ -17,17 +19,17 @@ class Api::V1::TasksController < ApplicationController
 
   def update
     case params[:activity]
-    when "confirmed"
+    when 'confirmed'
       if @task.is_confirmable?
         @task.update(status: params[:activity])
-        render json: { message: "Your task has been confirmed" }
+        render json: { message: 'Your task has been confirmed' }
       else
         render_error_message(@task)
       end
-    when "claimed"
+    when 'claimed'
       if @task.is_claimable?(current_user)
         @task.update(status: params[:activity], provider: current_user)
-        render json: { message: "You claimed the task" }
+        render json: { message: 'You claimed the task' }
       else
         render_error_message(@task)
       end
@@ -37,7 +39,7 @@ class Api::V1::TasksController < ApplicationController
       render json: create_json_response(@task)
     end
   end
- 
+
   private
 
   def find_task
@@ -45,31 +47,29 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def restrict_user_to_have_one_active_task
-    if current_user.tasks.any? { |task| task.status == "confirmed" }
-      render json: { error: "You can only have one active task at a time." }, status: 403
-      return
+    if current_user.tasks.any? { |task| task.status == 'confirmed' }
+      render json: { error: 'You can only have one active task at a time.' }, status: 403
+      nil
     end
   end
 
   def render_error_message(task)
-    case
-    when task.task_items.count >= 40
-      message = "You have selected too many products."
+    if task.task_items.count >= 40
+      message = 'You have selected too many products.'
       request_status = 403
-    when task.task_items.count < 5
-      message = "You have to pick at least 5 products."
+    elsif task.task_items.count < 5
+      message = 'You have to pick at least 5 products.'
       request_status = 403
-    when task.user_id == current_user.id
-      message = "You cannot claim your own task"
+    elsif task.user_id == current_user.id
+      message = 'You cannot claim your own task.'
       request_status = 405
-    when params[:activity] == "claimed"
-      message = "Task has already been claimed!"
+    elsif params[:activity] == 'claimed'
+      message = 'The task has already been claimed!'
       request_status = 409
     else
-      message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
+      message = 'We are experiencing internal errors. Please refresh the page and contact support. No activity specified'
       request_status = 500
     end
-
     render json: { error_message: message }, status: request_status
   end
 
@@ -79,6 +79,6 @@ class Api::V1::TasksController < ApplicationController
 
   def create_json_response(task)
     json = { task: TaskSerializer.new(task) }
-    json.merge!(message: "The product has been added to your request")
+    json.merge!(message: 'The product has been added to your request')
   end
 end

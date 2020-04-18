@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
   let(:user) { create(:user) }
   let(:user_credentials) { user.create_new_auth_token }
