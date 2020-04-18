@@ -19,22 +19,22 @@ class Api::V1::TasksController < ApplicationController
     case params[:activity]
     when "confirmed"
       if @task.is_confirmable?
-        @task.update_attribute(:status, params[:activity])
+        @task.update(:status, params[:activity])
         render json: { message: "Your task has been confirmed" }
       else
         render_error_message(@task)
       end
     when "claimed"
       if @task.is_claimable?(current_user)
-        @task.update_attributes(status: params[:activity], provider: current_user)
+        @task.update(status: params[:activity], provider: current_user)
         render json: { message: "You claimed the task" }
       else
         render_error_message(@task)
       end
     else
       product = Product.find(params[:product_id])
-      task.task_items.create(product: product)
-      render json: create_json_response(task)
+      @task.task_items.create(product: product)
+      render json: create_json_response(@task)
     end
   end
  
@@ -55,13 +55,19 @@ class Api::V1::TasksController < ApplicationController
     case
     when task.task_items.count >= 40
       message = "You have selected too many products."
+      request_status = 403
     when task.task_items.count < 5
       message = "You have to pick at least 5 products."
+      request_status = 403
+    when task.user_id == current_user.id
+      message = "You cannot claim your own task"
+      request_status = 405
     else
       message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
+      request_status = 500
     end
 
-    render json: { error_message: message }, status: 400
+    render json: { error_message: message }, status: request_status
   end
 
   def render_active_record_error(error)
