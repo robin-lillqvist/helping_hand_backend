@@ -60,10 +60,9 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
       end
 
       it 'response contains long and lat' do
-        expect(response_json['task']['long']).to eq 25.76
-        expect(response_json['task']['lat']).to eq 80.19
+        expect(response_json['task']['long']).to eq "80.19"
+        expect(response_json['task']['lat']).to eq "25.76"
       end
-
     end
   end
 

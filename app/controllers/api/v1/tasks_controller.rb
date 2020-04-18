@@ -12,7 +12,7 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def create
-    task = Task.create(user_id: params[:user_id])
+    task = Task.create(task_params)
     task.task_items.create(product_id: params[:product_id])
     render json: create_json_response(task)
   end
@@ -41,6 +41,10 @@ class Api::V1::TasksController < ApplicationController
   end
 
   private
+
+  def task_params
+    params.permit(:id, :products, :total, :long, :lat, :user_id)
+  end
 
   def find_task
     @task = Task.find(params[:id])
