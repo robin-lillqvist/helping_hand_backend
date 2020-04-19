@@ -15,4 +15,8 @@ class Task < ApplicationRecord
   def is_claimable?(user)
     status != 'claimed' && self.user != user
   end
+
+  def is_deliverable?(user)
+    status != 'delivered' && self.user != user
+  end
 end
