@@ -22,6 +22,9 @@ class ApplicationController < ActionController::API
     elsif params[:activity] == "claimed"
       message = "The task has already been claimed!"
       request_status = 409
+    elsif params[:activity] == "delivered"
+      message = "You haven't claimed this task, please contact support."
+      request_status = 401
     else
       message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
       request_status = 500

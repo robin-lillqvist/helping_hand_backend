@@ -17,6 +17,6 @@ class Task < ApplicationRecord
   end
 
   def is_deliverable?(user)
-    status != 'delivered' && self.user != user
+    status != 'delivered' && self.provider == user
   end
 end
