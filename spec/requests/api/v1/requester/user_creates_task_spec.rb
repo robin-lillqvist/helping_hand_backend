@@ -13,7 +13,9 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
       post '/api/v1/tasks',
            params: {
              product_id: product_1.id,
-             user_id: user.id
+             user_id: user.id,
+             lat: 25.76,
+             long: 80.19
            },
            headers: user_headers
       task_id = response_json['task']['id']
@@ -55,6 +57,11 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
 
       it 'response with the right total amount' do
         expect(response_json['task']['total']).to eq '110.0'
+      end
+
+      it 'response contains long and lat' do
+        expect(response_json['task']['long']).to eq "80.19"
+        expect(response_json['task']['lat']).to eq "25.76"
       end
     end
   end
