@@ -32,6 +32,13 @@ class Api::V1::TasksController < ApplicationController
       else
         render_error_message(@task)
       end
+    when 'delivered'
+      if @task.is_deliverable?(current_user)
+        @task.update(status: params[:activity], provider: current_user)
+        render json: { message: 'Thank you for your help!' }
+      else
+        render_error_message(@task)
+      end
     else
       product = Product.find(params[:product_id])
       @task.task_items.create(product: product)
