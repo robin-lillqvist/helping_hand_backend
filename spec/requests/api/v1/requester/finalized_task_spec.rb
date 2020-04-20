@@ -9,7 +9,7 @@ RSpec.describe "PUT api/v1/tasks/:id", type: :request do
   describe "Succesfully finalizes the task" do
     before do
       put "/api/v1/tasks/#{task.id}",
-        params: { activity: "delivered" },
+        params: { activity: "finalized" },
         headers: user_headers
     end
 
@@ -18,6 +18,7 @@ RSpec.describe "PUT api/v1/tasks/:id", type: :request do
     end
 
     it "response with success message" do
+      binding.pry
       expect(response_json["message"]).to eq "You finalized the delivery"
     end
   end
