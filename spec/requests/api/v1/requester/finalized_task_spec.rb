@@ -16,8 +16,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
   describe 'Succesfully finalizes the task' do
     before do
       put "/api/v1/tasks/#{task.id}",
-        params: { activity: 'finalized' },
-        headers: user_headers
+      params: { activity: 'finalized' },
+      headers: user_headers
     end
 
     it 'returns a 200 response status' do
@@ -33,8 +33,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
     describe 'provider tries to finalize the otder' do
       before do
         put "/api/v1/tasks/#{task.id}",
-          params: { activity: 'finalized' },
-          headers: provider_headers
+        params: { activity: 'finalized' },
+        headers: provider_headers
       end
 
       it 'returns a 500 response status' do
@@ -53,8 +53,8 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
 
       before do
         put "/api/v1/tasks/#{task.id}",
-          params: { activity: 'finalized' },
-          headers: another_user_headers
+        params: { activity: 'finalized' },
+        headers: another_user_headers
       end
 
       it 'returns a 500 response status' do
