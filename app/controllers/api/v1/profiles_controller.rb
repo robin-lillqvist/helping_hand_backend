@@ -6,14 +6,11 @@ class Api::V1::ProfilesController < ApplicationController
     claimed_tasks.each do |task|
       if task.provider_id == current_user.id
         render json: claimed_tasks
+        return
       else
-        render json: { error_message: "Fuck off!" }
+        render json: { error_message: "Error" }, status: 401
+        return
       end
     end
   end
-
-  # private
-  # def task_provider
-  #   claimed_tasks.provider.all? { |task| task.provider == current_user }
-  # end
 end
