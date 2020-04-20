@@ -1,5 +1,5 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :products, :total, :long, :lat 
+  attributes :id, :products, :total, :long, :lat, :provider_id
   belongs_to :user, serializer: UserSerializer
 
   def products
