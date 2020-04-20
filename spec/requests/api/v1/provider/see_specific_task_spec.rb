@@ -1,8 +1,9 @@
 RSpec.describe Api::V1::TasksController, type: :request do
-    let(:task) { create(:task, status: 'confirmed') }
-    let!(:task_items) { 5.times { create(:task_item, task: task) } }
   
-    describe' GET /task/1 successfully' do
+    describe' GET /task/id successfully' do
+      let(:task) { create(:task, status: 'confirmed') }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
+
       before do
         get "/api/v1/tasks/#{task.id}"
       end
@@ -16,6 +17,27 @@ RSpec.describe Api::V1::TasksController, type: :request do
       end
 
       it 'should return status' do
+        expect(Task.last.status).to eq 'confirmed'
+      end
+    end
+
+    describe' GET /task/id unsuccessfully' do
+      let(:task) { create(:task, status: 'delivered') }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
+
+      before do
+        get "/api/v1/tasks/#{task.id}"
+      end
+  
+      it 'should return a 400 response' do
+        expect(response).to have_http_status 400
+      end
+
+      xit 'should return task id' do
+        expect(response_json['id']).to eq task.id
+      end
+
+      xit 'should return status' do
         expect(Task.last.status).to eq 'confirmed'
       end
     end
