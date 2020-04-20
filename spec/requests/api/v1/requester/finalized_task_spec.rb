@@ -25,7 +25,7 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
     end
 
     it 'response with success message' do
-      expect(response_json['message']).to eq 'You finalized the delivery'
+      expect(response_json['message']).to eq 'We are happy that you received your order. Please be in touch if you have any further request.'
     end
   end
 
