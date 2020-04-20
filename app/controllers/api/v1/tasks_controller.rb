@@ -10,7 +10,7 @@ class Api::V1::TasksController < ApplicationController
     if task.status == "confirmed" || task.status == "claimed"
       render json: task
     else
-      render json: { message: "The task you are searching for does not exist" }, status: 404
+      render json: { message: "The task you are searching for does not exist." }, status: 404
     end
   end
 
