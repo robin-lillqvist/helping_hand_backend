@@ -5,6 +5,15 @@ class Api::V1::TasksController < ApplicationController
   before_action :restrict_user_to_have_one_active_task, only: %i[create]
   before_action :find_task, only: :update
 
+  def show
+    task = Task.find(params[:id])
+    if task.status == "confirmed" 
+      render json: task
+    else
+      render json: { message: "The task you are searching for does not exist" }, status: 404
+    end
+  end
+
   def index
     tasks = Task.where(status: :confirmed || :claimed)
     render json: tasks
@@ -18,36 +27,34 @@ class Api::V1::TasksController < ApplicationController
 
   def update
     case params[:activity]
-    when 'confirmed'
+    when "confirmed"
       if @task.is_confirmable?
         @task.update(status: params[:activity])
-        render json: { message: 'Your task has been confirmed' }
+        render json: { message: "Your task has been confirmed" }
       else
         render_error_message(@task)
       end
-    when 'claimed'
+    when "claimed"
       if @task.is_claimable?(current_user)
         @task.update(status: params[:activity], provider: current_user)
-        render json: { message: 'You claimed the task' }
+        render json: { message: "You claimed the task" }
       else
         render_error_message(@task)
       end
-    when 'delivered'
+    when "delivered"
       if @task.is_deliverable?(current_user)
         @task.update(status: params[:activity], provider: current_user)
-        render json: { message: 'Thank you for your help!' }
+        render json: { message: "Thank you for your help!" }
       else
         render_error_message(@task)
       end
-
-    when 'finalized'
+    when "finalized"
       if @task.is_finalizable?(current_user)
         @task.update(status: params[:activity], user: current_user)
-        render json: { message: 'We are happy that you received your order. Please be in touch if you have any further request.' }
+        render json: { message: "We are happy that you received your order. Please be in touch if you have any further request." }
       else
         render_error_message(@task)
       end
-
     else
       product = Product.find(params[:product_id])
       @task.task_items.create(product: product)
@@ -66,14 +73,14 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def restrict_user_to_have_one_active_task
-    if current_user.tasks.any? { |task| task.status == 'confirmed' }
-      render json: { error: 'You can only have one active task at a time.' }, status: 403
+    if current_user.tasks.any? { |task| task.status == "confirmed" }
+      render json: { error: "You can only have one active task at a time." }, status: 403
       nil
     end
   end
 
   def create_json_response(task)
     json = { task: TaskSerializer.new(task) }
-    json.merge!(message: 'The product has been added to your request')
+    json.merge!(message: "The product has been added to your request")
   end
 end
