@@ -23,5 +23,4 @@ class Task < ApplicationRecord
   def is_finalizable?(user)
     status != 'finalized' && self.user == user
   end
-
 end
