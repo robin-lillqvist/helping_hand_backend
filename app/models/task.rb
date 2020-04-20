@@ -6,7 +6,7 @@ class Task < ApplicationRecord
   has_many :task_items
   belongs_to :user
   belongs_to :provider, class_name: 'User', foreign_key: 'provider_id', optional: true
-  enum status: %i[pending confirmed claimed delivered]
+  enum status: %i[pending confirmed claimed delivered finalized]
 
   def is_confirmable?
     task_items.count < 40 && task_items.count >= 5
@@ -18,5 +18,9 @@ class Task < ApplicationRecord
 
   def is_deliverable?(user)
     status != 'delivered' && self.provider == user
+  end
+
+  def is_finalizable?(user)
+    status != 'finalized' && self.user == user
   end
 end

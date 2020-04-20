@@ -39,6 +39,15 @@ class Api::V1::TasksController < ApplicationController
       else
         render_error_message(@task)
       end
+
+    when 'finalized'
+      if @task.is_finalizable?(current_user)
+        @task.update(status: params[:activity], user: current_user)
+        render json: { message: 'We are happy that you received your order. Please be in touch if you have any further request.' }
+      else
+        render_error_message(@task)
+      end
+
     else
       product = Product.find(params[:product_id])
       @task.task_items.create(product: product)
