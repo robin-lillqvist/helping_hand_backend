@@ -6,7 +6,8 @@ class Api::V1::TasksController < ApplicationController
   before_action :find_task, only: :update
 
   def show
-  
+    task = Task.find(params[:id])
+    render json: task  
   end
 
   def index
