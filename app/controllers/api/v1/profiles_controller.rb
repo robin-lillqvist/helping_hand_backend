@@ -1,15 +1,15 @@
+# frozen_string_literal: true
+
 class Api::V1::ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    claimed_tasks = Task.where(status: :claimed)
+    claimed_tasks = Task.where(status: %w[claimed delivered])
     claimed_tasks.each do |task|
       if task.provider_id == current_user.id
-        render json: claimed_tasks
-        return
+        return render json: claimed_tasks
       else
-        render json: { error_message: "Error" }, status: 401
-        return
+        return render json: { error_message: 'You are not authorized, please contact support.' }, status: 401
       end
     end
   end
