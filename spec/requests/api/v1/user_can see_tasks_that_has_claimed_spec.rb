@@ -33,5 +33,24 @@ RSpec.describe 'Api::V1::ProfilesController', type: :request do
         expect(response_json.last['provider_id']).to eq provider.id
       end
     end
+
+    describe' GET /profiles unsuccessfully' do
+      let(:another_provider) { create(:user) }
+      let(:another_provider_credentials) { another_provider.create_new_auth_token }
+      let(:another_provider_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(another_provider_credentials) }
+    
+      before do
+        get '/api/v1/profiles',
+            headers: another_provider_headers
+      end
+  
+      it 'should return a 401 response' do
+        expect(response).to have_http_status 401
+      end
+
+      it 'should return task id' do
+        expect(response_json['error_message']).to eq "Error" 
+      end
+    end
   end
 end
