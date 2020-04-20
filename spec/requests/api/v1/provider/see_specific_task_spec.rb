@@ -29,16 +29,12 @@ RSpec.describe Api::V1::TasksController, type: :request do
         get "/api/v1/tasks/#{task.id}"
       end
   
-      it 'should return a 400 response' do
-        expect(response).to have_http_status 400
+      it 'should return a 404 response' do
+        expect(response).to have_http_status 404
       end
 
-      xit 'should return task id' do
-        expect(response_json['id']).to eq task.id
-      end
-
-      xit 'should return status' do
-        expect(Task.last.status).to eq 'confirmed'
+      it 'should return task id' do
+        expect(response_json['message']).to eq "The task you are searching for does not exist" 
       end
     end
   end 
