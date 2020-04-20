@@ -5,6 +5,10 @@ class Api::V1::TasksController < ApplicationController
   before_action :restrict_user_to_have_one_active_task, only: %i[create]
   before_action :find_task, only: :update
 
+  def show
+  
+  end
+
   def index
     tasks = Task.where(status: :confirmed || :claimed)
     render json: tasks
