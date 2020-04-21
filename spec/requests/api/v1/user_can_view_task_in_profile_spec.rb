@@ -77,7 +77,7 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       end
     end
 
-    describe "Visitor cannot see another users ongoing task." do
+    describe "Visitor cannot see another users ongoing task" do
       let(:empty_user) { create(:user) }
       let(:empty_user_credentials) { empty_user.create_new_auth_token }
       let(:empty_user_headers) { { HTTP_ACCEPT: "application/json" }.merge!(empty_user_credentials) }  
@@ -87,8 +87,8 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
           headers: empty_user_headers
       end
 
-      it "returns a 204 response status" do
-        expect(response).to have_http_status 204
+      it "returns a 200 response status" do
+        expect(response).to have_http_status 200
       end
 
       it "returns a list of claimed tasks" do
