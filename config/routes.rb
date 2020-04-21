@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :products, only: [:index]
       resources :tasks, only: [:create, :update, :index, :show]
+      resources :profiles, only: [:index]
     end
   end
 end
