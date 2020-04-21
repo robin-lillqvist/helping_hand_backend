@@ -49,21 +49,6 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       end
     end
 
-    describe "Another provider views his request" do
-      before do
-        get "/api/v1/profiles",
-          headers: another_provider_headers
-      end
-
-      it "returns a 200 response status" do
-        expect(response).to have_http_status 200
-      end
-
-      it "returns a list of claimed tasks" do
-        expect(response_json.count).to eq 1
-      end
-    end
-
     describe "Requester views his ongoing request" do
       before do
         get "/api/v1/profiles",
@@ -76,6 +61,38 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
 
       it "returns a list of claimed tasks" do
         expect(response_json.count).to eq 1
+      end
+    end
+  end
+
+  describe "Unsuccessfully" do
+    describe "Provider cannot see another_provider request" do
+      before do
+        get "/api/v1/profiles",
+          headers: another_provider_headers
+      end
+
+      it "returns a list of claimed tasks" do
+        expect(Task.first["provider_id"]).not_to eq another_provider.id
+      end
+    end
+
+    describe "Visitor cannot see another users ongoing task." do
+      let(:empty_user) { create(:user) }
+      let(:empty_user_credentials) { empty_user.create_new_auth_token }
+      let(:empty_user_headers) { { HTTP_ACCEPT: "application/json" }.merge!(empty_user_credentials) }  
+
+      before do
+        get "/api/v1/profiles",
+          headers: empty_user_headers
+      end
+
+      it "returns a 204 response status" do
+        expect(response).to have_http_status 204
+      end
+
+      it "returns a list of claimed tasks" do
+        expect(response_json['message']).to eq "You don't have any ongoing task."
       end
     end
   end
