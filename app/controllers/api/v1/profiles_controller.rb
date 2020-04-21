@@ -6,7 +6,9 @@ class Api::V1::ProfilesController < ApplicationController
   def index
     ongoing_tasks = Task.where(status: %w[claimed delivered])
     .where(provider_id: current_user.id)
-    .or(Task.where(user_id: current_user.id))
+    .or(Task.where(status: %w[claimed delivered])
+    .where(user_id: current_user.id))
+
 
     if ongoing_tasks.empty?
       render json: {message: "You don't have any ongoing tasks."}
