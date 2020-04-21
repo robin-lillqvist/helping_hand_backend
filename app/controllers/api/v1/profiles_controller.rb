@@ -9,7 +9,7 @@ class Api::V1::ProfilesController < ApplicationController
     .or(Task.where(user_id: current_user.id))
 
     if ongoing_tasks.empty?
-      render json: {message: "You don't have any ongoing task."}
+      render json: {message: "You don't have any ongoing tasks."}
     else
       render json: ongoing_tasks
     end

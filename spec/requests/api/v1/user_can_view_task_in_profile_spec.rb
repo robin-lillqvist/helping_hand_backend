@@ -44,7 +44,6 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
 
       it "returns the correct provider id" do
         expect(response_json.first["provider_id"]).to eq provider.id
-        expect(response_json.second["provider_id"]).to eq provider.id
         expect(response_json.last["provider_id"]).to eq provider.id
       end
     end
@@ -72,7 +71,7 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
           headers: another_provider_headers
       end
 
-      it "returns a list of claimed tasks" do
+      it "returns that provider id is not equal to an id of a provider for a different task" do
         expect(Task.first["provider_id"]).not_to eq another_provider.id
       end
     end
@@ -91,8 +90,8 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
         expect(response).to have_http_status 200
       end
 
-      it "returns a list of claimed tasks" do
-        expect(response_json['message']).to eq "You don't have any ongoing task."
+      it "returns a message no ongoing tasks" do
+        expect(response_json['message']).to eq "You don't have any ongoing tasks."
       end
     end
   end
