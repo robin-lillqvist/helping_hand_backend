@@ -40,7 +40,25 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
         expect(response).to have_http_status 401
       end
 
-      it 'response with success message' do
+      it 'response with error message' do
+        expect(response_json['error_message']).to eq 'You are not authorized for this action.'
+      end
+    end
+
+    describe 'Provider tries to decline a task that is delivered' do
+      let(:delivered_task) { create(:task, status: 'delivered', provider: provider ) }
+
+      before do
+        put "/api/v1/profiles/#{delivered_task.id}",
+            params: { activity: 'confirmed' },
+            headers: provider_headers
+      end
+
+      it 'returns a 401 response status' do
+        expect(response).to have_http_status 401
+      end
+
+      it 'response with error message' do
         expect(response_json['error_message']).to eq 'You are not authorized for this action.'
       end
     end
