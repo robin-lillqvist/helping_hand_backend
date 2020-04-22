@@ -11,21 +11,11 @@ class Api::V1::ProfilesController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-  if params[:activity]
-      task.update_attributes(status: "confirmed")
-      render json: { message: "Your claimed task has been declined" }
-      binding.pry
+    if task.is_declinable?(current_user)
+      task.update(status: params[:activity], provider: current_user)
+      render json: { message: 'Your claimed task has been declined' }
+    else
+      render json: { error_message: 'You are not authorized for this action.' }, status: 401
     end
   end
-
-  private
-
-  def search_user
-  end
 end
-
-# def create_json_response(task)
-#   json = { task: TaskSerializer.new(task) }
-#   json.merge!(message: "The product has been added to your request")
-# end
-

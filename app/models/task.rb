@@ -23,4 +23,8 @@ class Task < ApplicationRecord
   def is_finalizable?(user)
     status != 'finalized' && self.user == user
   end
+
+  def is_declinable?(user)
+    status == 'claimed' && self.provider == user
+  end
 end
