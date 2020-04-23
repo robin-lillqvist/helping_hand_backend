@@ -21,7 +21,7 @@ The [visitors interface](https://github.com/CraftAcademy/helping_hand_client) an
 * Ruby v2.5.1
 
 ## Testing framework
-* Cypress
+* RSpec
 
 ## Launched using
 * Heroku
