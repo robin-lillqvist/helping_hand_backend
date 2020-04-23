@@ -14,7 +14,7 @@ The [visitors interface](https://github.com/CraftAcademy/helping_hand_client) an
 * User can use Google maps with different functionalities.
 
 ## Authors
-| [Jaime Cruz](https://github.com/JaimeCrz) | [Robin](https://github.com/robin-lillqvist) | [Carlos](https://github.com/Carltesio) | [Pierre](https://github.com/pierre-1) | [Janko](https://github.com/MadFarmer101) | [Blake](https://github.com/blake-futchi) |
+| [Jaime](https://github.com/JaimeCrz) | [Robin](https://github.com/robin-lillqvist) | [Carlos](https://github.com/Carltesio) | [Pierre](https://github.com/pierre-1) | [Janko](https://github.com/MadFarmer101) | [Blake](https://github.com/blake-futchi) |
 
 ## Built with
 * Rails v6.0.2
