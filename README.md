@@ -17,7 +17,8 @@ The [visitors interface](https://github.com/CraftAcademy/helping_hand_client) an
 | [Jaime Cruz](https://github.com/JaimeCrz) | [Robin](https://github.com/robin-lillqvist) | [Carlos](https://github.com/Carltesio) | [Pierre](https://github.com/pierre-1) | [Janko](https://github.com/MadFarmer101) | [Blake](https://github.com/blake-futchi) |
 
 ## Built with
-* React v.16.12.0
+* Rails v6.0.2
+* Ruby v2.5.1
 
 ## Testing framework
 * Cypress
