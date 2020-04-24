@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::TasksController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update]
+  before_action :authenticate_user!, only: %i[create update delete]
   before_action :restrict_user_to_have_one_active_task, only: %i[create]
   before_action :find_task, only: :update
 
@@ -24,6 +24,12 @@ class Api::V1::TasksController < ApplicationController
     task.task_items.create(product_id: params[:product_id])
     render json: create_json_response(task)
   end
+
+
+  def destroy 
+    binding.pry
+  end
+
 
   def update
     case params[:activity]
