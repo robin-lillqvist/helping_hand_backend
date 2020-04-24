@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Api::V1::TasksController', type: :request do
-  let(:user) { create(:user) }
-  let(:user_credentials) { user.create_new_auth_token }
-  let(:user_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(user_credentials) }
-
-  let(:task) { create(:task, status: 'confirmed', user: user) }
-  let!(:task_items) { 5.times { create(:task_item, task: task) } }
+  let!(:user) { create(:user) }
+  let!(:user_credentials) { user.create_new_auth_token }
+  let!(:user_headers) { { HTTP_ACCEPT: 'application/json' }.merge!(user_credentials) }
 
   describe 'Successessfully' do
-    describe 'DELETE /api/v1/task/id' do
+    describe 'User can delete his order.' do
+      let!(:task) { create(:task, status: 'confirmed', user: user) }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
+  
       before do
         delete "/api/v1/tasks/#{task.id}",
          headers: user_headers
@@ -20,7 +20,7 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
       end
   
       it 'Requester is able to delete his request.' do
-        expect(json_response['message']).to eq 'task successfully deleted'
+        expect(response_json['message']).to eq 'Your task has been successfully delted'
       end
     end
   end
