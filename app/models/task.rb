@@ -3,7 +3,7 @@
 class Task < ApplicationRecord
   validates_presence_of :status, :long, :lat
 
-  has_many :task_items
+  has_many :task_items, dependent: :delete_all
   belongs_to :user
   belongs_to :provider, class_name: 'User', foreign_key: 'provider_id', optional: true
   enum status: %i[pending confirmed claimed delivered finalized]
@@ -26,5 +26,9 @@ class Task < ApplicationRecord
 
   def is_declinable?(user)
     status == 'claimed' && self.provider == user
+  end
+
+  def is_deletable?(user)
+    status == 'confirmed' && self.user == user
   end
 end
