@@ -29,6 +29,6 @@ class Task < ApplicationRecord
   end
 
   def is_deletable?(user)
-    status == 'confirmed' && self.user == user
+    (status == 'confirmed' || status == 'pending') && self.user == user
   end
 end

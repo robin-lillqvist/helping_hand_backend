@@ -9,6 +9,7 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       let(:provider_headers) { { HTTP_ACCEPT: "application/json" }.merge!(provider_credentials) }
 
       let!(:task) { create(:task, provider: provider) }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
       let!(:another_task) { create(:task, provider: provider) }
 
       before do
@@ -65,14 +66,6 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
 
       it "returns a 200 response status" do
         expect(response).to have_http_status 200
-      end
-
-      it "returns a message no ongoing tasks" do
-        expect(response_json["created_tasks"]).to eq "You don't have any ongoing tasks."
-      end
-
-      it "returns a message no claimed tasks" do
-        expect(response_json["claimed_tasks"]).to eq "You don't have any claimed tasks."
       end
     end
   end

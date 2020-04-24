@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :products, only: [:index]
       resources :tasks, only: [:create, :update, :index, :show, :destroy]
-      resources :profiles, only: [:index, :update]
+      resources :profiles, only: [:index, :update, :show]
     end
   end
 end
