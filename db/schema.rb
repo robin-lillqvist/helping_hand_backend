@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_092625) do
+ActiveRecord::Schema.define(version: 2020_04_24_053517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_04_21_092625) do
     t.bigint "provider_id"
     t.decimal "long"
     t.decimal "lat"
+    t.string "address"
     t.index ["provider_id"], name: "index_tasks_on_provider_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
@@ -57,12 +58,8 @@ ActiveRecord::Schema.define(version: 2020_04_21_092625) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "role"
-    t.string "image"
     t.string "email"
     t.string "address"
-    t.integer "postcode"
-    t.string "city"
     t.json "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

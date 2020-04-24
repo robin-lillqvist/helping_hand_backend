@@ -10,6 +10,7 @@ RSpec.describe Task, type: :model do
     it { is_expected.to have_db_column :provider_id }
     it { is_expected.to have_db_column :long }
     it { is_expected.to have_db_column :lat }
+    it { is_expected.to have_db_column :address }
   end
 
   describe 'Validations' do
