@@ -9,6 +9,7 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       let(:provider_headers) { { HTTP_ACCEPT: "application/json" }.merge!(provider_credentials) }
 
       let!(:task) { create(:task, provider: provider) }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
       let!(:another_task) { create(:task, provider: provider) }
 
       before do
@@ -47,7 +48,6 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       end
 
       it "returns a list of claimed tasks" do
-        binding.pry
         expect(response_json["created_tasks"].count).to eq 1
       end
     end
