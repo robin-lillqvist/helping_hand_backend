@@ -30,7 +30,7 @@ class Api::V1::TasksController < ApplicationController
       @task.destroy
       render json: { message: 'Your request has been successfully deleted.' }, status: 200
     else
-      render json: { error_message: 'You are not authorized to do this action.' }, status: 401
+      render json: { error_message: 'You are not authorized to perform this action.' }, status: 401
     end
   end
 

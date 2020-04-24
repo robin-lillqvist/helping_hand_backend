@@ -62,7 +62,7 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
       end
   
       it 'Requester is able to delete his request.' do
-        expect(response_json['error_message']).to eq 'You are not authorized to do this action.'
+        expect(response_json['error_message']).to eq 'You are not authorized to perform this action.'
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
       end
   
       it 'Requester is able to delete his request.' do
-        expect(response_json['error_message']).to eq 'You are not authorized to do this action.'
+        expect(response_json['error_message']).to eq 'You are not authorized to perform this action.'
       end
     end
   end
