@@ -26,11 +26,11 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def destroy
-    if @task.is_deletable?
+    if @task.is_deletable?(current_user)
       @task.destroy
       render json: { message: 'Your task has been successfully delted' }, status: 200
     else
-      binding.pry
+      render json: { error_message: 'You are not authorized to do this action.' }, status: 401
     end
   end
 
