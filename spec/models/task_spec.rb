@@ -25,4 +25,21 @@ RSpec.describe Task, type: :model do
     it { is_expected.to belong_to :user }
     it { is_expected.to belong_to(:provider).optional(true) }
   end
+
+  describe 'check if task has phone/name/adress' do
+    let(:task) { create(:task) }
+    let!(:task_items) { 5.times { create(:task_item, task: task) } }
+
+    it 'expects to contain the product name' do
+      expect(Task.last.name).to eq 'Robin'
+    end
+
+    it 'expects to contain the product price' do
+      expect(Task.last.address).to eq 'Bolidenvägen 12'
+    end
+
+    it 'expects to contain the product name' do
+      expect(Task.last.phone).to eq '0729999999'
+    end
+  end
 end
