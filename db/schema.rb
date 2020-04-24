@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_053517) do
     t.decimal "long"
     t.decimal "lat"
     t.string "address"
+    t.string "name"
+    t.string "phone"
     t.index ["provider_id"], name: "index_tasks_on_provider_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
