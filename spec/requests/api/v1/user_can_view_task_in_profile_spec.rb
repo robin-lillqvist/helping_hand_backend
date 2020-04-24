@@ -47,6 +47,7 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
       end
 
       it "returns a list of claimed tasks" do
+        binding.pry
         expect(response_json["created_tasks"].count).to eq 1
       end
     end
@@ -65,14 +66,6 @@ RSpec.describe "Api::V1::ProfilesController", type: :request do
 
       it "returns a 200 response status" do
         expect(response).to have_http_status 200
-      end
-
-      it "returns a message no ongoing tasks" do
-        expect(response_json["created_tasks"]).to eq "You don't have any ongoing tasks."
-      end
-
-      it "returns a message no claimed tasks" do
-        expect(response_json["claimed_tasks"]).to eq "You don't have any claimed tasks."
       end
     end
   end
