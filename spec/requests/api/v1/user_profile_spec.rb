@@ -21,7 +21,7 @@ RSpec.describe 'Api::V1::ProfilesController', type: :request do
       end
 
       it 'user can see his information' do
-        expect(response_json['email']).to eq "person2@example.com"
+        expect(response_json['email']).to eq user.email
       end
     end
   end
