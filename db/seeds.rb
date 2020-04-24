@@ -26,7 +26,7 @@ products = Product.create(
   { name: 'Västerbotten', quantity: '1kg', price: 74 },
   { name: 'Nutella', quantity: '630g', price: 41 },
   { name: 'Tortilla', quantity: '8p', price: 10 }, 
-  { name: 'Oil', quantity: '1l', price: 13 }, 
+  { name: 'Olive Oil', quantity: '1l', price: 13 }, 
   { name: 'Toilet paper', quantity: '12p' , price: 50 },
   { name: 'Salt', quantity: '125g' , price: 4 },
   { name: 'Ibuprofen ', quantity: '400mg' , price: 50 },
