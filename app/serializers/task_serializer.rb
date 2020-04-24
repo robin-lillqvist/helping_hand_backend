@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TaskSerializer < ActiveModel::Serializer
   attributes :id, :products, :total, :long, :lat, :provider_id, :address, :name, :phone, :status
   belongs_to :user, serializer: UserSerializer
@@ -10,6 +12,6 @@ class TaskSerializer < ActiveModel::Serializer
   end
 
   def total
-    object.task_items.joins(:product).sum("products.price")
+    object.task_items.joins(:product).sum('products.price')
   end
 end
