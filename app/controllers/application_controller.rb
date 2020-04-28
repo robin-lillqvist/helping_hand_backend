@@ -22,14 +22,14 @@ class ApplicationController < ActionController::API
     elsif params[:activity] == "claimed"
       message = "The task has already been claimed!"
       request_status = 409
-    elsif params[:activity] == "delivered"
+    elsif params[:activity] == "delivered" && task.status == 'claimed'
       message = "You haven't claimed this task, please contact support."
       request_status = 401
-    elsif task.status != 'delivered'
+    elsif task.status != 'delivered' && params[:activity] == "finalized"
       message = "Please, wait until the request has been delivered."
       request_status = 403
     else
-      message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
+      message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified."
       request_status = 500
     end
     render json: { error_message: message }, status: request_status

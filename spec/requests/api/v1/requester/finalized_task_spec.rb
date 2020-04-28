@@ -65,7 +65,7 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
       end
 
       it 'response with an error message' do
-        expect(response_json['error_message']).to eq 'We are experiencing internal errors. Please refresh the page and contact support. No activity specified'
+        expect(response_json['error_message']).to eq 'We are experiencing internal errors. Please refresh the page and contact support. No activity specified.'
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe 'PUT api/v1/tasks/:id', type: :request do
       end
 
       it 'response with an error message' do
-        expect(response_json['error_message']).to eq 'We are experiencing internal errors. Please refresh the page and contact support. No activity specified'
+        expect(response_json['error_message']).to eq 'We are experiencing internal errors. Please refresh the page and contact support. No activity specified.'
       end
     end
   end
