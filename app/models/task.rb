@@ -17,11 +17,11 @@ class Task < ApplicationRecord
   end
 
   def is_deliverable?(user)
-    status != 'delivered' && self.provider == user
+    status == 'claimed' && self.provider == user
   end
 
   def is_finalizable?(user)
-    status != 'finalized' && self.user == user
+    status == 'delivered' && self.user == user
   end
 
   def is_declinable?(user)
@@ -29,6 +29,6 @@ class Task < ApplicationRecord
   end
 
   def is_deletable?(user)
-    (status == 'confirmed' || status == 'pending') && self.user == user
+    (status == 'confirmed' || status == 'pending' || status == 'finalized') && self.user == user
   end
 end

@@ -44,5 +44,25 @@ RSpec.describe "PUT api/v1/tasks/:id", type: :request do
         expect(response_json["error_message"]).to eq "You haven't claimed this task, please contact support."
       end
     end
+
+    describe "Provider tries to deliver task again" do
+
+      let(:another_task) { create(:task, status: "finalized", provider: provider) }
+      let!(:task_items) { 5.times { create(:task_item, task: another_task) } }
+
+      before do
+        put "/api/v1/tasks/#{another_task.id}",
+          params: { activity: "delivered" },
+          headers: provider_headers
+      end
+
+      it "returns a 500 response status" do
+        expect(response).to have_http_status 500
+      end
+
+      it "response with unauthorized message" do
+        expect(response_json["error_message"]).to eq "We are experiencing internal errors. Please refresh the page and contact support. No activity specified."
+      end
+    end
   end
 end
