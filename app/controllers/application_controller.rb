@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
     elsif task.task_items.count < 5
       message = "You have to pick at least 5 products."
       request_status = 403
-    elsif task.user_id == current_user.id
+    elsif task.user_id == current_user.id && params[:activity] == "claimed"
       message = "You cannot claim your own task."
       request_status = 405
     elsif params[:activity] == "claimed"
@@ -25,6 +25,9 @@ class ApplicationController < ActionController::API
     elsif params[:activity] == "delivered"
       message = "You haven't claimed this task, please contact support."
       request_status = 401
+    elsif task.status != 'delivered'
+      message = "Please, wait until the request has been delivered."
+      request_status = 403
     else
       message = "We are experiencing internal errors. Please refresh the page and contact support. No activity specified"
       request_status = 500
@@ -32,3 +35,4 @@ class ApplicationController < ActionController::API
     render json: { error_message: message }, status: request_status
   end
 end
+
