@@ -41,6 +41,24 @@ RSpec.describe 'Api::V1::TasksController', type: :request do
         expect(response_json['message']).to eq 'Your request has been successfully deleted.'
       end
     end
+
+    describe 'User can delete his finalized task.' do
+      let!(:task) { create(:task, status: 'finalized', user: user) }
+      let!(:task_items) { 5.times { create(:task_item, task: task) } }
+  
+      before do
+        delete "/api/v1/tasks/#{task.id}",
+         headers: user_headers
+      end
+
+      it 'returns a 200 response status' do
+        expect(response).to have_http_status 200
+      end
+  
+      it 'Requester is able to delete his request.' do
+        expect(response_json['message']).to eq 'Your request has been successfully deleted.'
+      end
+    end
   end
 
   describe 'Unccessessfully' do
