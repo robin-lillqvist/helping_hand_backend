@@ -8,10 +8,10 @@ The [visitors interface](https://github.com/CraftAcademy/helping_hand_client) an
 # The MVP product
 **The MVP product will include a way for a visitor to:**
 * Users can register and login
-* User can create help request
+* User can create a help request
 * User can claim help requests
 * User can see his profile
-* User can use Google maps with different functionalities.
+* Users can use Google maps with different functionalities.
 
 ## Authors
 | [Jaime](https://github.com/JaimeCrz) | [Robin](https://github.com/robin-lillqvist) | [Carlos](https://github.com/Carltesio) | [Pierre](https://github.com/pierre-1) | [Janko](https://github.com/MadFarmer101) | [Blake](https://github.com/blake-futchi) |
