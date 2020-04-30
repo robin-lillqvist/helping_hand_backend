@@ -1,4 +1,6 @@
 # [Helping Hand](Back-end / API)
+[![Coverage Status](https://coveralls.io/repos/github/CraftAcademy/helping_hand_backend/badge.svg?branch=development)](https://coveralls.io/github/CraftAcademy/helping_hand_backend?branch=development) 
+[![Build Status](https://semaphoreci.com/api/v1/carltesio/helping_hand_backend/branches/development/badge.svg)](https://semaphoreci.com/carltesio/helping_hand_backend)
 
 # Welcome to our Application! 
 
